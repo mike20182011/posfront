@@ -8,6 +8,10 @@ import { Login } from './app/auth/login/login';
 import { DashboardLayoutComponent } from './app/dashboard/dashboard-layout.component';
 import { Dashboard } from './app/dashboard/dashboard';
 import { ComprasComponent } from './app/compras/compras.component';
+import { ProveedoresComponent } from './app/proveedores/proveedores.component';
+//import { ProveedoresComponent } from './app/proveedores/proveedores.component';
+
+
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -21,6 +25,7 @@ bootstrapApplication(AppComponent, {
         children: [
           { path: 'dashboard', component: Dashboard },
           { path: 'compras', component: ComprasComponent },
+          { path: 'proveedores', component: ProveedoresComponent },
         ]
       }
     ])

@@ -27,6 +27,8 @@ import { MatListModule } from '@angular/material/list';
         <mat-nav-list>
           <a mat-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
           <a mat-list-item routerLink="/compras" routerLinkActive="active">Compras</a>
+          <a mat-list-item routerLink="/proveedores" routerLinkActive="active">Proveedores</a>
+
         </mat-nav-list>
       </mat-sidenav>
 

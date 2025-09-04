@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
     <nav class="sidebar">
       <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
       <a routerLink="/compras" routerLinkActive="active">Compras</a>
+      <a routerLink="/proveedores" routerLinkActive="active">Proveedores</a>
     </nav>
   `,
   styles: [`

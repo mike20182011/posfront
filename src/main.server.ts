@@ -11,6 +11,9 @@ import { DashboardLayoutComponent } from './app/dashboard/dashboard-layout.compo
 //import { Dashboard } from './app/dashboard/dashboard.component';
 import { ComprasComponent } from './app/compras/compras.component';
 import { Dashboard } from './app/dashboard/dashboard';
+import { ProveedoresComponent } from './app/proveedores/proveedores.component';
+
+
 
 export default function bootstrap() {
   return bootstrapApplication(AppComponent, {
@@ -25,6 +28,7 @@ export default function bootstrap() {
           children: [
             { path: 'dashboard', component: Dashboard },
             { path: 'compras', component: ComprasComponent },
+            { path: 'proveedores', component: ProveedoresComponent },
           ]
         }
       ])

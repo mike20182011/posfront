@@ -1,0 +1,23 @@
+<h2>Registrar Proveedor</h2>
+
+<form [formGroup]="proveedorForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Nombre:</label>
+    <input type="text" formControlName="nombre" />
+  </div>
+
+  <div>
+    <label>Teléfono:</label>
+    <input type="text" formControlName="telefono" />
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" formControlName="email" />
+  </div>
+
+  <button type="submit" [disabled]="proveedorForm.invalid">Registrar</button>
+</form>
+
+<!-- mensaje de confirmación -->
+<p *ngIf="mensaje">{{ mensaje }}</p>
