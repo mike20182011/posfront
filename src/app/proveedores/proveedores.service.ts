@@ -27,5 +27,5 @@ export class ProveedoresService {
     return this.http.get<Proveedor[]>(this.apiUrl);
   }
 
-  //aqui ira el nuevo codigo y esto losubiremos al git hub
+  //aqui ira el nuevo codigo y esto losubiremos al git hub y seguiremos añadiendo comentarios para probar el push
 }
