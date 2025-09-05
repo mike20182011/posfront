@@ -26,4 +26,6 @@ export class ProveedoresService {
   getProveedores(): Observable<Proveedor[]> {
     return this.http.get<Proveedor[]>(this.apiUrl);
   }
+
+  //aqui ira el nuevo codigo y esto losubiremos al git hub
 }
