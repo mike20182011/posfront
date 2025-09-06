@@ -1,19 +1,29 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen" class="sidenav">
+  <mat-sidenav #drawer mode="side" opened>
     <mat-nav-list>
-      <a mat-list-item routerLink="dashboard">Dashboard</a>
-      <a mat-list-item routerLink="compras">Compras</a>
-      <a mat-list-item routerLink="proveedores">Proveedores</a>
-
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="/compras" routerLinkActive="active">Compras</a>
+      <a mat-list-item routerLink="/proveedores" routerLinkActive="active">Proveedores</a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button mat-icon-button (click)="toggleSidebar()">
+      <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>Mi Sistema</span>
+
+      <span class="app-title">ALANDRI SRL</span>
+
+      <span class="spacer"></span>
+
+      <!-- 👤 Nombre de usuario -->
+      <span class="usuario">{{ usuarioNombre }}</span>
+
+      <!-- 🚪 Botón salir -->
+      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
     </mat-toolbar>
 
     <div class="content">

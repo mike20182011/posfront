@@ -19,13 +19,14 @@ export class ProveedoresService {
 
   // Crear un nuevo proveedor
   addProveedor(proveedor: Proveedor): Observable<Proveedor> {
-    return this.http.post<Proveedor>(this.apiUrl, proveedor);
+    return this.http.post<Proveedor>(this.apiUrl, proveedor); 
+    // 👆 El interceptor ya agrega el token automáticamente
   }
 
-  // (opcional) listar proveedores
+  // Listar proveedores
   getProveedores(): Observable<Proveedor[]> {
-    return this.http.get<Proveedor[]>(this.apiUrl);
+    return this.http.get<Proveedor[]>(this.apiUrl); 
   }
 
-  //aqui ira el nuevo codigo y esto losubiremos al git hub y seguiremos añadiendo comentarios para probar el push
+  // Aquí puedes ir añadiendo más métodos (editar, eliminar, buscar, etc.)
 }

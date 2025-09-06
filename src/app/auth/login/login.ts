@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router, provideRouter } from '@angular/router';
+import { Router } from '@angular/router';
 
 // Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+
+// AuthService
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,6 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -30,7 +31,11 @@ export class Login {
   loading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private auth: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -44,21 +49,17 @@ export class Login {
 
       const { email, password } = this.loginForm.value;
 
-      this.http.post<any>('http://localhost:3000/auth/login', { email, password })
-        .subscribe({
-          next: (res) => {
-            // Guardamos el token y el usuario
-            localStorage.setItem('token', res.access_token);
-            localStorage.setItem('user', JSON.stringify(res.user));
-
-            // Redirigimos al dashboard
-            this.router.navigate(['/dashboard']);
-          },
-          error: (err) => {
-            this.errorMessage = err.error?.message || 'Error en el login';
-            this.loading = false;
-          }
-        });
+      // Llamamos a AuthService para login
+      this.auth.login(email, password).subscribe({
+        next: () => {
+          // Redirigimos al dashboard
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.message || 'Error en el login';
+          this.loading = false;
+        }
+      });
     }
   }
 }

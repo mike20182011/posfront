@@ -1,23 +1,37 @@
-<h2>Registrar Proveedor</h2>
+<div class="toolbar">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Buscar proveedor</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Nombre, teléfono o email">
+  </mat-form-field>
 
-<form [formGroup]="proveedorForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Nombre:</label>
-    <input type="text" formControlName="nombre" />
-  </div>
+  <button mat-raised-button color="primary" (click)="abrirDialogo()">
+    Añadir Proveedor
+  </button>
+</div>
 
-  <div>
-    <label>Teléfono:</label>
-    <input type="text" formControlName="telefono" />
-  </div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let proveedor">{{ proveedor.id }}</td>
+  </ng-container>
 
-  <div>
-    <label>Email:</label>
-    <input type="email" formControlName="email" />
-  </div>
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let proveedor">{{ proveedor.nombre }}</td>
+  </ng-container>
 
-  <button type="submit" [disabled]="proveedorForm.invalid">Registrar</button>
-</form>
+  <ng-container matColumnDef="telefono">
+    <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+    <td mat-cell *matCellDef="let proveedor">{{ proveedor.telefono }}</td>
+  </ng-container>
 
-<!-- mensaje de confirmación -->
-<p *ngIf="mensaje">{{ mensaje }}</p>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let proveedor">{{ proveedor.email }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

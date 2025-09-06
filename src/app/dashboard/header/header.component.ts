@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <header class="header">
-      <h1>Mi Sistema</h1>
+      <h1>ALANDRI SRL</h1>
     </header>
   `,
   styles: [`
