@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+
+.inner-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.inner-table th, .inner-table td {
+  text-align: center;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}

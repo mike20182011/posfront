@@ -12,6 +12,7 @@ import { ComprasComponent } from './app/compras/compras.component';
 import { Dashboard } from './app/dashboard/dashboard';
 import { ProveedoresComponent } from './app/proveedores/proveedores.component';
 import { AuthInterceptor } from './app/auth/auth.interceptor';
+import { ComprasCerradasComponent } from './app/compras/compras-cerradas/compras-cerradas.component';
 
 export default function bootstrap() {
   return bootstrapApplication(AppComponent, {
@@ -32,6 +33,8 @@ export default function bootstrap() {
             { path: 'dashboard', component: Dashboard },
             { path: 'compras', component: ComprasComponent },
             { path: 'proveedores', component: ProveedoresComponent },
+            { path: 'compras/cerradas', component: ComprasCerradasComponent }
+
           ]
         }
       ])

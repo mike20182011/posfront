@@ -1,0 +1,56 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let compra of compras">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Compra #{{ compra.id }} - {{ compra.proveedor.nombre }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Precio Unit: {{ compra.precioUnit | currency: compra.moneda }} - Costo Total: {{ compra.montoUSD }}
+      </mat-panel-description>
+      
+    </mat-expansion-panel-header>
+
+    <!-- Tabla de barras -->
+    <table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 inner-table">
+
+      <!-- Peso -->
+      <ng-container matColumnDef="pesoGr">
+        <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
+      </ng-container>
+
+      <!-- Pureza -->
+      <ng-container matColumnDef="pureza">
+        <th mat-header-cell *matHeaderCellDef>Pureza</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
+      </ng-container>
+
+      <!-- Peso Fino -->
+      <ng-container matColumnDef="pesoFino">
+        <th mat-header-cell *matHeaderCellDef>Peso Fino</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pesoFino }}</td>
+      </ng-container>
+
+      <!-- Onzas -->
+      <ng-container matColumnDef="onzas">
+        <th mat-header-cell *matHeaderCellDef>Onzas</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.onzas }}</td>
+      </ng-container>
+
+      <!-- Precio Unitario -->
+      <ng-container matColumnDef="precioUnit">
+        <th mat-header-cell *matHeaderCellDef>Precio Unit.</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.precioUnit | currency: compra.moneda }}</td>
+      </ng-container>
+
+      <!-- Monto Total -->
+      <ng-container matColumnDef="montoTotal">
+        <th mat-header-cell *matHeaderCellDef>Monto Total</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.montoTotal | currency: compra.moneda }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['pesoGr','pureza','pesoFino','onzas','precioUnit','montoTotal']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','precioUnit','montoTotal'];"></tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>
