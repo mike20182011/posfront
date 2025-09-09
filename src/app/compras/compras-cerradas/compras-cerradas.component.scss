@@ -12,3 +12,46 @@ table {
   padding: 4px 8px;
   font-size: 0.9rem;
 }
+/* Encabezado de cada compra */
+::ng-deep .custom-header {
+  background-color: #dbb000; /* azul Material */
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* Cambia color cuando se abre */
+::ng-deep .mat-expansion-panel-header.mat-expanded {
+  background-color: #dbb000 !important;
+}
+
+/* Título de la sección de barras */
+.barras-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 15px 0;
+  color: #444;
+}
+
+/* Estilo a la tabla de barras */
+.inner-table {
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+
+.inner-table th {
+  background-color: #eeeeee;
+  font-weight: 600;
+}
+
+.filtros-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+

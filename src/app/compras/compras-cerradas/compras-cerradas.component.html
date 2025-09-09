@@ -1,14 +1,52 @@
+<!-- Filtros -->
+<div class="filtros-container">
+
+    <mat-form-field>
+    <input matInput placeholder="Buscar proveedor" [(ngModel)]="proveedorFiltro" (input)="buscarProveedor($event)">
+  </mat-form-field>
+
+  <!-- Botones de moneda -->
+  <mat-button-toggle-group [(ngModel)]="monedaFiltro" (change)="seleccionarMoneda(monedaFiltro)">
+    <mat-button-toggle value="TODOS">Todos</mat-button-toggle>
+    <mat-button-toggle value="USD">USD</mat-button-toggle>
+    <mat-button-toggle value="BOB">BOB</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <!-- Rango de fechas -->
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerInicio" [(ngModel)]="fechaInicio" (dateChange)="seleccionarFechaInicio($event)" placeholder="Fecha inicio">
+    <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+    <mat-datepicker #pickerInicio></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerFin" [(ngModel)]="fechaFin" (dateChange)="seleccionarFechaFin($event)" placeholder="Fecha fin">
+    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFin></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Buscador de proveedor -->
+
+
+  <button mat-button color="primary" (click)="limpiarFiltros()">Limpiar filtros</button>
+</div>
+
+
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let compra of compras">
-    <mat-expansion-panel-header>
+  <mat-expansion-panel *ngFor="let compra of comprasFiltradas">
+    <mat-expansion-panel-header class="custom-header">
       <mat-panel-title>
         Compra #{{ compra.id }} - {{ compra.proveedor.nombre }}
       </mat-panel-title>
       <mat-panel-description>
-        Precio Unit: {{ compra.precioUnit | currency: compra.moneda }} - Costo Total: {{ compra.montoUSD }}
+        Precio Unit: {{ compra.precioUnit | currency: compra.moneda }} -
+        Costo Total: {{ compra.montoUSD | currency: compra.moneda }} -
+        Fecha de Compra: {{ compra.fecha }}
       </mat-panel-description>
-      
     </mat-expansion-panel-header>
+
+    <!-- Título de la sección de barras -->
+    <h3 class="barras-title">Información de las barras</h3>
 
     <!-- Tabla de barras -->
     <table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 inner-table">
