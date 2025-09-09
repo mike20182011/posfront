@@ -1,6 +1,14 @@
 <!-- Filtros -->
 <div class="filtros-container">
 
+
+  <div class="acciones">
+  <button mat-raised-button color="primary" (click)="abrirDialogoNuevaCompra()">
+    + Añadir compra
+  </button>
+</div>
+
+
     <mat-form-field>
     <input matInput placeholder="Buscar proveedor" [(ngModel)]="proveedorFiltro" (input)="buscarProveedor($event)">
   </mat-form-field>

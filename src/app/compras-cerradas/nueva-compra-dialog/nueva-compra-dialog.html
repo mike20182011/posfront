@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>Nueva Compra Cerrada</h2>
+<mat-dialog-content [formGroup]="form">
+  <!-- Datos generales -->
+  <mat-form-field>
+    <mat-label>Proveedor</mat-label>
+    <mat-select formControlName="proveedorId">
+      <mat-option *ngFor="let p of proveedores" [value]="p.id">
+        {{ p.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Moneda</mat-label>
+    <mat-select formControlName="moneda">
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="BOB">BOB</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Descuento</mat-label>
+    <input matInput type="number" formControlName="descuento">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Precio Unitario</mat-label>
+    <input matInput type="number" formControlName="precioUnit">
+  </mat-form-field>
+
+  <!-- Sección de barras -->
+  <h3>Barras</h3>
+  <div formArrayName="barras">
+    <div *ngFor="let barra of barras.controls; let i = index" [formGroupName]="i" class="barra-form">
+      <mat-form-field>
+        <mat-label>Peso (gr)</mat-label>
+        <input matInput type="number" formControlName="pesoGr">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Pureza Arriba</mat-label>
+        <input matInput type="number" step="0.01" formControlName="purezaArriba">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Pureza Abajo</mat-label>
+        <input matInput type="number" step="0.01" formControlName="purezaAbajo">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Pureza Derecha</mat-label>
+        <input matInput type="number" step="0.01" formControlName="purezaDerecha">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Pureza Izquierda</mat-label>
+        <input matInput type="number" step="0.01" formControlName="purezaIzquierda">
+      </mat-form-field>
+
+      <button mat-button color="warn" (click)="eliminarBarra(i)">Eliminar</button>
+    </div>
+  </div>
+  <button mat-stroked-button color="primary" (click)="nuevaBarra()">+ Añadir Barra</button>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+</mat-dialog-actions>
+  

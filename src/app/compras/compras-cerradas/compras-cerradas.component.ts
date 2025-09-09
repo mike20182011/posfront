@@ -13,7 +13,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
-
+import { MatDialog } from '@angular/material/dialog';
+import { NuevaCompraDialogComponent } from '../../compras-cerradas/nueva-compra-dialog/nueva-compra-dialog';
 
 interface Barra {
   pesoGr: number;
@@ -51,6 +52,8 @@ interface Compra {
 })
 export class ComprasCerradasComponent implements OnInit {
   private comprasService = inject(ComprasCerradasService);
+private dialog = inject(MatDialog);
+
 
   compras: Compra[] = [];
   comprasFiltradas: Compra[] = [];
@@ -123,4 +126,18 @@ export class ComprasCerradasComponent implements OnInit {
     this.aplicarFiltros();
   }
 
+
+  abrirDialogoNuevaCompra() {
+    const dialogRef = this.dialog.open(NuevaCompraDialogComponent, {
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Si se guardó, recargamos la lista
+        this.cargarCompras();
+      }
+    });
+  }
 }
