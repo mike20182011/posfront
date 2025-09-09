@@ -8,8 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ComprasCerradasService } from '../../compras/compras-cerradas/compras-cerradas.service';
 import { ProveedoresService } from '../../proveedores/proveedores.service';
-//import { ComprasCerradasService } from '../compras-cerradas.service';
-//import { ProveedoresService } from '../proveedores.service';
 
 @Component({
   selector: 'app-nueva-compra-dialog',
@@ -30,10 +28,11 @@ export class NuevaCompraDialogComponent implements OnInit {
 
   form: FormGroup = this.fb.group({
     tipoCompra: ['CERRADA', Validators.required],
-    moneda: ['USD', Validators.required],
-    descuento: [0],
+    moneda: ['USD', Validators.required], // 👈 por defecto USD
+    descuento: [null],
+    tipoCambio: [null],
     usuarioId: [1, Validators.required], // luego lo podemos hacer dinámico
-    proveedorId: [null, Validators.required], // se llena desde el select
+    proveedorId: [null, Validators.required],
     precioUnit: [0, Validators.required],
     barras: this.fb.array([])
   });
@@ -44,7 +43,23 @@ export class NuevaCompraDialogComponent implements OnInit {
 
   ngOnInit() {
     this.cargarProveedores();
-    this.nuevaBarra(); // por defecto al menos 1 barra
+    this.nuevaBarra(); // al menos 1 barra por defecto
+
+    // 👇 Escuchamos cambios en la moneda para cambiar validadores dinámicamente
+    this.form.get('moneda')!.valueChanges.subscribe(moneda => {
+  if (moneda === 'USD') {
+    this.form.get('descuento')!.setValidators([Validators.required]);
+    this.form.get('tipoCambio')!.clearValidators();
+    this.form.get('tipoCambio')!.setValue(null);
+  } else if (moneda === 'BOB') {
+    this.form.get('tipoCambio')!.setValidators([Validators.required]);
+    this.form.get('descuento')!.clearValidators();
+    this.form.get('descuento')!.setValue(null);
+  }
+  this.form.get('descuento')!.updateValueAndValidity();
+  this.form.get('tipoCambio')!.updateValueAndValidity();
+});
+
   }
 
   cargarProveedores() {
@@ -69,12 +84,25 @@ export class NuevaCompraDialogComponent implements OnInit {
   }
 
   guardar() {
-    if (this.form.valid) {
-      this.comprasService.crearCompra(this.form.value).subscribe(() => {
-        this.dialogRef.close(true); // cerrar y refrescar
-      });
+  if (this.form.valid) {
+    const data: any = { ...this.form.value };
+
+    if (data.moneda === 'USD') {
+      delete data.tipoCambio;   // eliminar por completo
+      // Asegurar que descuento sea número
+      if (data.descuento === null) {
+        data.descuento = 0;
+      }
+    } else if (data.moneda === 'BOB') {
+      delete data.descuento;    // eliminar por completo
     }
+
+    this.comprasService.crearCompra(data).subscribe(() => {
+      this.dialogRef.close(true);
+    });
   }
+}
+
 
   cancelar() {
     this.dialogRef.close(false);

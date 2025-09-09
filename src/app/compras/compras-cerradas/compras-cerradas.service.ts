@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ComprasCerradasService {
-  private apiUrl = 'http://localhost:3000/compras/'; // Endpoint de compras cerradas
-
+  private apiUrl = 'http://localhost:3000/compras/cerrada'; // Endpoint de compras cerradas
+ private apiUrl2 = 'http://localhost:3000/compras'; 
   constructor(private http: HttpClient) {}
 
   getComprasCerradas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?tipoCompra=CERRADA`);
+    return this.http.get<any[]>(`${this.apiUrl2}?tipoCompra=CERRADA`);
   }
 
   crearCompra(compra: any): Observable<any> {

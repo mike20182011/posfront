@@ -14,7 +14,7 @@ table {
 }
 /* Encabezado de cada compra */
 ::ng-deep .custom-header {
-  background-color: #dbb000; /* azul Material */
+  background-color: #e3e4e5; /* azul Material */
   color: white;
   font-weight: bold;
   border-radius: 4px;
@@ -22,7 +22,7 @@ table {
 
 /* Cambia color cuando se abre */
 ::ng-deep .mat-expansion-panel-header.mat-expanded {
-  background-color: #dbb000 !important;
+  background-color: #e3e4e5 !important;
 }
 
 /* Título de la sección de barras */

@@ -1,0 +1,95 @@
+<h2>Compras Abiertas</h2>
+
+<button mat-raised-button color="primary" (click)="abrirDialogNuevaCompra()">
+  <mat-icon>add</mat-icon> Añadir nueva compra abierta
+</button>
+
+<!-- 🔹 Controles de filtros -->
+<div class="filtros">
+  <mat-button-toggle-group [value]="monedaFiltro" (change)="seleccionarMoneda($event.value)">
+    <mat-button-toggle value="TODOS">Todos</mat-button-toggle>
+    <mat-button-toggle value="USD">USD</mat-button-toggle>
+    <mat-button-toggle value="BOB">BOB</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <mat-form-field>
+    <mat-label>Fecha inicio</mat-label>
+    <input matInput [matDatepicker]="pickerInicio" (dateChange)="seleccionarFechaInicio($event)">
+    <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+    <mat-datepicker #pickerInicio></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Fecha fin</mat-label>
+    <input matInput [matDatepicker]="pickerFin" (dateChange)="seleccionarFechaFin($event)">
+    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFin></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Buscar proveedor</mat-label>
+    <input matInput (input)="buscarProveedor($event)" placeholder="Proveedor...">
+  </mat-form-field>
+
+  <button mat-stroked-button color="warn" (click)="limpiarFiltros()">Limpiar filtros</button>
+
+  
+</div>
+
+<!-- 🔹 Lista de compras -->
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let compra of comprasFiltradas">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ compra.proveedor.nombre }} - {{ compra.fecha | date:'yyyy-MM-dd' }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Moneda: <a href="" class="btnUSD">{{ compra.moneda }}</a> | Precio Inicial: {{ compra.precioInicial | currency:compra.moneda }}
+        
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="detalle">
+        <button mat-stroked-button color="primary" (click)="abrirCierreParcial(compra)">
+      Cierre Parcial
+    </button>
+      <p><strong>Usuario:</strong> {{ compra.usuario.nombre }}</p>
+      <p><strong>Onzas Totales:</strong> {{ compra.onzasTotales }}</p>
+      <p><strong>Monto Total:</strong> {{ compra.montoTotal | currency:compra.moneda }}</p>
+      <p *ngIf="compra.descuento"><strong>Descuento:</strong> {{ compra.descuento }}%</p>
+      <p *ngIf="compra.tipoCambio"><strong>Tipo Cambio:</strong> {{ compra.tipoCambio }}</p>
+    </div>
+
+    <h3>Barras</h3>
+    <table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 full-width-table">
+      
+      <ng-container matColumnDef="pesoGr">
+        <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="pureza">
+        <th mat-header-cell *matHeaderCellDef>Pureza</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="pesoFino">
+        <th mat-header-cell *matHeaderCellDef>Peso Fino</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.pesoFino }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="onzas">
+        <th mat-header-cell *matHeaderCellDef>Onzas</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.onzas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="montoUSD">
+        <th mat-header-cell *matHeaderCellDef>Monto USD</th>
+        <td mat-cell *matCellDef="let barra">{{ barra.montoUSD | currency:'USD' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['pesoGr','pureza','pesoFino','onzas','montoUSD']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','montoUSD']"></tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>
