@@ -19,4 +19,9 @@ export class ComprasAbiertasService {
   return this.http.post(`${this.apiUrl}/cerrar-parcial`, payload);
 }
 
+cerrarBarras(payload: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/cerrar-barras`, payload);
+}
+
+
 }

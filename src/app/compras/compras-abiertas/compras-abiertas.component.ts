@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NuevaCompraAbiertaDialogComponent } from '../../compras-abiertas/nueva-compra-abierta-dialog/nueva-compra-abierta-dialog.component';
 import { CierreParcialDialogComponent } from './dialog-cierre-parcial/cierre-parcial-dialog.component';
+import { CierrePorBarraDialogComponent } from './dialog-cierre-por-barra/cierre-por-barra-dialog.component';
 
 
 interface Barra {
@@ -158,7 +159,11 @@ export class ComprasAbiertasComponent implements OnInit {
     data: { 
       compraAbiertaId: compra.id,
       proveedor: compra.proveedor.nombre,
-      numeroCompra: compra.id
+      numeroCompra: compra.id,
+      onzasTotales: compra.onzasTotales,
+      moneda: compra.moneda,
+      descuento: compra.descuento,
+      tipoCambio: compra.tipoCambio
     }  // ✅ aquí pasamos el id
   });
 
@@ -168,6 +173,31 @@ export class ComprasAbiertasComponent implements OnInit {
     }
   });
 }
+
+
+abrirCierrePorBarra(compra: any) {
+  const barrasDisponibles = compra.barras.filter((b: any) => b.onzas > 0);
+
+  const dialogRef = this.dialog.open(CierrePorBarraDialogComponent, {
+    width: '600px',
+    data: { 
+      compraAbiertaId: compra.id,
+      proveedor: compra.proveedor.nombre,
+      numeroCompra: compra.id,
+      barras: barrasDisponibles, // ✅ solo barras abiertas
+      moneda: compra.moneda,
+      descuento: compra.descuento,
+      tipoCambio: compra.tipoCambio
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.cargarCompras(); // refresca lista
+    }
+  });
+}
+
 
   
 }

@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ComprasAbiertasService } from '../compras-abiertas.service';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,9 +18,13 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-cierre-parcial-dialog',
   templateUrl: './cierre-parcial-dialog.component.html',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     CurrencyPipe,
     DatePipe,
+    MatDialogModule,
     MatExpansionModule,
     MatTableModule,
     MatButtonModule,
@@ -30,38 +34,65 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule,
-CommonModule, ReactiveFormsModule, MatDialogModule,
-    MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon]
+    MatSelectModule
+  ]
 })
 export class CierreParcialDialogComponent {
-   form: FormGroup;
+  form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private service: ComprasAbiertasService,
     private dialogRef: MatDialogRef<CierreParcialDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any // aquí viene la compra seleccionada
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
-      //barraId: [null, Validators.required],
       onzasCerradas: [0, Validators.required],
       precioUnitActual: [0, Validators.required],
-      descuento: [0, Validators.required]
+      descuento: [null],
+      tipoCambio: [null]
     });
+
+    // ✅ Configurar validadores dinámicos según la moneda
+    if (this.data?.moneda === 'USD') {
+      this.form.get('descuento')?.setValidators([Validators.required]);
+      this.form.get('descuento')?.setValue(this.data?.descuento || null);
+
+      this.form.get('tipoCambio')?.clearValidators();
+      this.form.get('tipoCambio')?.reset();
+    }
+
+    if (this.data?.moneda === 'BOB') {
+      this.form.get('tipoCambio')?.setValidators([Validators.required]);
+      this.form.get('tipoCambio')?.setValue(this.data?.tipoCambio || null);
+
+      this.form.get('descuento')?.clearValidators();
+      this.form.get('descuento')?.reset();
+    }
+
+    this.form.updateValueAndValidity();
   }
 
   guardar() {
-    const payload = {
-      compraAbiertaId: this.data.compraAbiertaId,
-      ...this.form.value
-    };
+    if (this.form.valid) {
+      const payload: any = {
+        compraAbiertaId: this.data?.compraAbiertaId,
+        ...this.form.value
+      };
 
-    this.service.cerrarParcial(payload).subscribe(() => {
-      this.dialogRef.close(true);
-    });
+      // 🚫 Limpiar campos no aplicables
+      if (this.data?.moneda === 'USD') {
+        delete payload.tipoCambio;
+      }
+      if (this.data?.moneda === 'BOB') {
+        delete payload.descuento;
+      }
+
+      this.service.cerrarParcial(payload).subscribe(() => {
+        this.dialogRef.close(true);
+      });
+    }
   }
-
 
   cancelar() {
     this.dialogRef.close(false);

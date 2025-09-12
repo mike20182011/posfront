@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>
+  Cierre por Barra - Compra Nº {{ data.numeroCompra }} ({{ data.proveedor }})
+</h2>
+
+<mat-dialog-content>
+  <table mat-table [dataSource]="data.barras" class="w-full">
+    <!-- Checkbox -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let barra">
+        <mat-checkbox (change)="toggleBarra(barra.id, $event)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pesoGr">
+      <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
+      <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="pureza">
+      <th mat-header-cell *matHeaderCellDef>Pureza</th>
+      <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['select', 'pesoGr', 'pureza']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['select', 'pesoGr', 'pureza']"></tr>
+  </table>
+
+  <form [formGroup]="form" class="mt-4">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Precio Unitario Actual</mat-label>
+      <input matInput type="number" formControlName="precioUnitActual" />
+    </mat-form-field>
+
+    @if (data.moneda === 'USD') {
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Descuento</mat-label>
+        <input matInput type="number" formControlName="descuento" />
+      </mat-form-field>
+    }
+
+    @if (data.moneda === 'BOB') {
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Tipo de Cambio</mat-label>
+        <input matInput type="number" formControlName="tipoCambio" />
+      </mat-form-field>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+</mat-dialog-actions>

@@ -1,12 +1,15 @@
 <h2 mat-dialog-title>
   Cierre Parcial - Compra #{{ data.numeroCompra }} <br>
-  <small>Proveedor: {{ data.proveedor }}</small>
+  <small>Proveedor: {{ data.proveedor }}</small><br>
+  <small>Onzas Totales: {{ data.onzasTotales }}</small><br>
+  <small>Moneda: {{ data.moneda }}</small>
+
 </h2>
 <mat-dialog-content [formGroup]="form">
   
 
   <mat-form-field>
-    <mat-label>Onzas Cerradas</mat-label>
+    <mat-label>Onzas a Cerrar</mat-label>
     <input matInput type="number" formControlName="onzasCerradas">
   </mat-form-field>
 
@@ -15,10 +18,18 @@
     <input matInput type="number" formControlName="precioUnitActual">
   </mat-form-field>
 
-  <mat-form-field>
+  <!-- Mostrar descuento solo si es USD -->
+  <mat-form-field *ngIf="data?.moneda === 'USD'">
     <mat-label>Descuento</mat-label>
     <input matInput type="number" formControlName="descuento">
   </mat-form-field>
+
+  <!-- Mostrar tipoCambio solo si es BOB -->
+  <mat-form-field *ngIf="data?.moneda === 'BOB'">
+    <mat-label>Tipo de Cambio</mat-label>
+    <input matInput type="number" formControlName="tipoCambio">
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

@@ -53,6 +53,9 @@
         <button mat-stroked-button color="primary" (click)="abrirCierreParcial(compra)">
       Cierre Parcial
     </button>
+    <button mat-stroked-button color="primary" (click)="abrirCierrePorBarra(compra)">
+      Cierre Por Barra
+    </button>
       <p><strong>Usuario:</strong> {{ compra.usuario.nombre }}</p>
       <p><strong>Onzas Totales:</strong> {{ compra.onzasTotales }}</p>
       <p><strong>Monto Total:</strong> {{ compra.montoTotal | currency:compra.moneda }}</p>
@@ -61,35 +64,53 @@
     </div>
 
     <h3>Barras</h3>
-    <table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 full-width-table">
-      
-      <ng-container matColumnDef="pesoGr">
-        <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
-        <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
-      </ng-container>
+<table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 full-width-table">
+  
+  <ng-container matColumnDef="pesoGr">
+    <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
+    <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
+  </ng-container>
 
-      <ng-container matColumnDef="pureza">
-        <th mat-header-cell *matHeaderCellDef>Pureza</th>
-        <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
-      </ng-container>
+  <ng-container matColumnDef="pureza">
+    <th mat-header-cell *matHeaderCellDef>Pureza</th>
+    <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
+  </ng-container>
 
-      <ng-container matColumnDef="pesoFino">
-        <th mat-header-cell *matHeaderCellDef>Peso Fino</th>
-        <td mat-cell *matCellDef="let barra">{{ barra.pesoFino }}</td>
-      </ng-container>
+  <ng-container matColumnDef="pesoFino">
+    <th mat-header-cell *matHeaderCellDef>Peso Fino</th>
+    <td mat-cell *matCellDef="let barra">{{ barra.pesoFino }}</td>
+  </ng-container>
 
-      <ng-container matColumnDef="onzas">
-        <th mat-header-cell *matHeaderCellDef>Onzas</th>
-        <td mat-cell *matCellDef="let barra">{{ barra.onzas }}</td>
-      </ng-container>
+  <ng-container matColumnDef="onzas">
+    <th mat-header-cell *matHeaderCellDef>Onzas</th>
+    <td mat-cell *matCellDef="let barra">{{ barra.onzas }}</td>
+  </ng-container>
 
-      <ng-container matColumnDef="montoUSD">
-        <th mat-header-cell *matHeaderCellDef>Monto USD</th>
-        <td mat-cell *matCellDef="let barra">{{ barra.montoUSD | currency:'USD' }}</td>
-      </ng-container>
+  <!-- 🔹 Columna dinámica según moneda -->
+   <p><strong>Monto Total:</strong> 
+  @if (compra.moneda === 'USD') {
+    {{ compra.montoTotal | currency:'USD' }}
+  } @else {
+    {{ compra.montoBOB | currency:'BOB' }}
+  }
+</p>
 
-      <tr mat-header-row *matHeaderRowDef="['pesoGr','pureza','pesoFino','onzas','montoUSD']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','montoUSD']"></tr>
-    </table>
+  <ng-container matColumnDef="monto">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ compra.moneda === 'USD' ? 'Monto USD' : 'Monto BOB' }}
+    </th>
+    <td mat-cell *matCellDef="let barra">
+      @if (compra.moneda === 'USD') {
+        {{ barra.montoUSD | currency:'USD' }}
+      } @else {
+        {{ barra.montoBOB | currency:'BOB' }}
+      }
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['pesoGr','pureza','pesoFino','onzas','monto']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','monto']" [ngClass]="{'cerrada': row.onzas === 0}"></tr>
+</table>
+
   </mat-expansion-panel>
 </mat-accordion>

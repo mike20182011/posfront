@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ProveedoresService, Proveedor } from './proveedores.service';
+import { ProveedoresService, Proveedor, BalanceProveedor } from './proveedores.service';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -30,6 +30,20 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './proveedores.component.html',
 })
 export class ProveedoresComponent implements OnInit, AfterViewInit {
+
+  balances: BalanceProveedor[] = [];
+  displayedColumnsBalances: string[] = [
+    'nombre',
+    'deudaTotalUSD',
+    'pagosTotalUSD',
+    'saldoUSD',
+    'deudaTotalBOB',
+    'pagosTotalBOB',
+    'saldoBOB',
+  ];
+  dataSourceBalances = new MatTableDataSource<BalanceProveedor>([]);
+
+  
   private proveedoresService = inject(ProveedoresService);
   private dialog = inject(MatDialog);
 
@@ -42,19 +56,32 @@ export class ProveedoresComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  @ViewChild('paginatorBalances') paginatorBalances!: MatPaginator;
+@ViewChild('sortBalances') sortBalances!: MatSort;
+
   ngOnInit() {
     this.cargarProveedores();
+    this.cargarBalancesProveedores(); 
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+      this.dataSourceBalances.paginator = this.paginatorBalances;
+  this.dataSourceBalances.sort = this.sortBalances;
   }
 
   cargarProveedores() {
     this.proveedoresService.getProveedores().subscribe(data => {
       this.proveedores = data;
       this.dataSource.data = this.proveedores;
+    });
+  }
+
+  cargarBalancesProveedores() {
+    this.proveedoresService.getBalancesProveedores().subscribe(data => {
+      this.balances = data;
+      this.dataSourceBalances.data = this.balances;
     });
   }
 
@@ -73,4 +100,9 @@ export class ProveedoresComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  applyFilterBalances(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceBalances.filter = filterValue.trim().toLowerCase();
+}
+
 }

@@ -60,7 +60,20 @@ import { AuthService } from '../auth/auth.service';
       <mat-icon>business</mat-icon>
       <span>Proveedores</span>
     </a>
+
+    <a mat-list-item routerLink="/pagos" routerLinkActive="active">
+      <mat-icon>business</mat-icon>
+      <span>Pagos</span>
+    </a>
+
+    <a mat-list-item routerLink="/cierres" routerLinkActive="active">
+      <mat-icon>business</mat-icon>
+      <span>Cierres</span>
+    </a>
+
   </mat-nav-list>
+  
+  
 </mat-sidenav>
 
 

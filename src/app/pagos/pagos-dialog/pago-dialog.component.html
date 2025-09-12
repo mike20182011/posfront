@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Registrar Pago</h2>
+
+<mat-dialog-content>
+  <!-- Mostrar saldo disponible -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Saldo disponible</mat-label>
+    <input matInput [value]="saldoDisponible | number:'1.2-2'" disabled>
+  </mat-form-field>
+
+  <!-- Formulario -->
+  <form [formGroup]="pagoForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Proveedor</mat-label>
+      <mat-select formControlName="proveedorId">
+        <mat-option *ngFor="let prov of data.proveedores" [value]="prov.id">
+          {{ prov.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Moneda</mat-label>
+      <mat-select formControlName="moneda">
+        <mat-option value="USD">USD</mat-option>
+        <mat-option value="BOB">BOB</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Monto</mat-label>
+      <input matInput type="number" formControlName="monto">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Observación</mat-label>
+      <textarea matInput formControlName="observacion"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="pagoForm.invalid">
+    Guardar
+  </button>
+</mat-dialog-actions>

@@ -14,6 +14,8 @@ import { ProveedoresComponent } from './app/proveedores/proveedores.component';
 import { AuthInterceptor } from './app/auth/auth.interceptor';
 import { ComprasCerradasComponent } from './app/compras/compras-cerradas/compras-cerradas.component';
 import { ComprasAbiertasComponent } from './app/compras/compras-abiertas/compras-abiertas.component';
+import { PagosComponent } from './app/pagos/pagos.component';
+import { CierresComponent } from './app/cierres/cierres.component';
 
 export default function bootstrap() {
   return bootstrapApplication(AppComponent, {
@@ -35,8 +37,9 @@ export default function bootstrap() {
             { path: 'compras', component: ComprasComponent },
             { path: 'proveedores', component: ProveedoresComponent },
             { path: 'compras/cerradas', component: ComprasCerradasComponent },
-            { path: 'compras/abiertas', component: ComprasAbiertasComponent }
-
+            { path: 'compras/abiertas', component: ComprasAbiertasComponent },
+            { path: 'pagos', component: PagosComponent },
+            { path: 'cierres', component: CierresComponent },
           ]
         }
       ])

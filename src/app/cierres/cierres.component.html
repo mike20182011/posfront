@@ -1,0 +1,22 @@
+<table mat-table [dataSource]="proveedores" class="mat-elevation-z8">
+  <!-- Nombre -->
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef> Proveedor </th>
+    <td mat-cell *matCellDef="let p"> {{ p.nombre }} </td>
+  </ng-container>
+
+  <!-- Onzas USD -->
+  <ng-container matColumnDef="onzasUSD">
+    <th mat-header-cell *matHeaderCellDef> Onzas USD </th>
+    <td mat-cell *matCellDef="let p"> {{ p.onzasUSD || 0 }} </td>
+  </ng-container>
+
+  <!-- Onzas BOB -->
+  <ng-container matColumnDef="onzasBOB">
+    <th mat-header-cell *matHeaderCellDef> Onzas BOB </th>
+    <td mat-cell *matCellDef="let p"> {{ p.onzasBOB || 0 }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['nombre','onzasUSD','onzasBOB']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['nombre','onzasUSD','onzasBOB'];"></tr>
+</table>
