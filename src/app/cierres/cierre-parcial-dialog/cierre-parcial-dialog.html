@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Cierre Parcial</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Proveedor</mat-label>
+    <mat-select formControlName="proveedorId">
+      <mat-option *ngFor="let p of proveedores" [value]="p.id">{{ p.nombre }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Moneda</mat-label>
+    <mat-select formControlName="moneda">
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="BOB">BOB</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Onzas a cerrar</mat-label>
+    <input matInput type="number" formControlName="onzasCerradas" min="1">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Precio unitario</mat-label>
+    <input matInput type="number" formControlName="precioUnitario" min="0.01">
+  </mat-form-field>
+
+  <!-- Descuento solo si USD -->
+  <mat-form-field *ngIf="form.get('moneda')?.value === 'USD'" appearance="fill" class="full-width">
+    <mat-label>Descuento (%)</mat-label>
+    <input matInput type="number" formControlName="descuento" min="0">
+  </mat-form-field>
+
+  <!-- TipoCambio solo si BOB -->
+  <mat-form-field *ngIf="form.get('moneda')?.value === 'BOB'" appearance="fill" class="full-width">
+    <mat-label>Tipo de cambio</mat-label>
+    <input matInput type="number" formControlName="tipoCambio" min="0.01">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cerrar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="cerrar()" [disabled]="form.invalid">Guardar</button>
+</mat-dialog-actions>
