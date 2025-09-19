@@ -47,11 +47,196 @@ table {
   font-weight: 600;
 }
 
-.filtros-container {
+
+
+
+.titulo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.filtros-card {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.titulo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.filtros-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filtro-item {
+  flex: 1 1 250px;
+  min-width: 200px;
+}
+
+.moneda-toggle-group {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+.moneda-toggle-group .mat-button-toggle {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+
+
+.custom-accordion {
+  margin-top: 1rem;
+}
+
+.compra-panel {
+  border-radius: 12px !important;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.custom-header {
+  background: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem 1rem;
+}
+
+.custom-header mat-panel-title {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.custom-header mat-panel-description {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.icono-compra {
+  font-size: 20px;
+}
+
+.contenido-compra {
+  padding: 1rem;
+}
+
+.barras-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.inner-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.inner-table th {
+  background: #eeeeee;
+  font-weight: 600;
+}
+
+.inner-table td, 
+.inner-table th {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+
+
+
+.panel-left {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 600;
+}
+
+.panel-left .fecha {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.panel-right {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #444;
+  justify-content: flex-end;
+}
+
+.icono-compra {
+  font-size: 20px;
+}
+
+.contenido-compra {
+  padding: 1rem;
+}
+
+.barras-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.inner-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.inner-table th {
+  background: #eeeeee;
+  font-weight: 600;
+}
+
+.inner-table td, 
+.inner-table th {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+
+.USD {
+  color: green;
+  font-weight: 700;
+}
+
+.BOB {
+  color: #e53935; /* rojo vivo */
+  font-weight: 700;
+}
+
+.precio-unit, .costo-total {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}

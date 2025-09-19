@@ -57,17 +57,17 @@ import { AuthService } from '../auth/auth.service';
     </a>
   </mat-nav-list>
     <a mat-list-item routerLink="/proveedores" routerLinkActive="active">
-      <mat-icon>business</mat-icon>
+      <mat-icon>account_circle</mat-icon>
       <span>Proveedores</span>
     </a>
 
     <a mat-list-item routerLink="/pagos" routerLinkActive="active">
-      <mat-icon>business</mat-icon>
+      <mat-icon>attach_money</mat-icon>
       <span>Pagos</span>
     </a>
 
     <a mat-list-item routerLink="/cierres" routerLinkActive="active">
-      <mat-icon>business</mat-icon>
+      <mat-icon>check_circle</mat-icon>
       <span>Cierres</span>
     </a>
 

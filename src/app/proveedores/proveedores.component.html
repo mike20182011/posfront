@@ -1,62 +1,93 @@
-<div class="toolbar">
-  <mat-form-field appearance="outline" class="search-field">
-  <mat-label>Buscar proveedor</mat-label>
-  <input matInput (keyup)="applyFilterBalances($event)" placeholder="Ej: Ramiro" />
-</mat-form-field>
+<mat-card class="proveedores-card">
 
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <!-- Buscar -->
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar proveedor</mat-label>
+      <input matInput (keyup)="applyFilterBalances($event)" placeholder="Ej: Ramiro" />
+      
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="abrirDialogo()">
-    Añadir Proveedor
-  </button>
-</div>
+    <!-- Botón -->
+    <button mat-raised-button color="primary" (click)="abrirDialogo()">
+      <mat-icon>person_add</mat-icon>
+      Añadir Proveedor
+    </button>
+  </div>
 
-<table mat-table [dataSource]="dataSourceBalances" matSort #sortBalances="matSort"
-       class="mat-elevation-z2 full-width-table">
+  <!-- Tabla -->
+  <div class="tabla-container">
+    <table mat-table [dataSource]="dataSourceBalances" matSort #sortBalances="matSort"
+           class="mat-elevation-z2 full-width-table">
 
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon color="primary" class="proveedor-icon">store</mat-icon>
+          {{ row.nombre }}
+        </td>
+      </ng-container>
 
-  <!-- Nombre -->
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor </th>
-      <td mat-cell *matCellDef="let row"> {{ row.nombre }} </td>
-    </ng-container>
+      <!-- USD -->
+      <ng-container matColumnDef="deudaTotalUSD">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Deuda USD</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="usd">{{ row.deudaTotalUSD | number:'1.2-2' }} USD</span>
+        </td>
+      </ng-container>
 
-    <!-- USD -->
-    <ng-container matColumnDef="deudaTotalUSD">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Deuda USD </th>
-      <td mat-cell *matCellDef="let row"> {{ row.deudaTotalUSD | number:'1.2-2' }} </td>
-    </ng-container>
+      <ng-container matColumnDef="pagosTotalUSD">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pagos USD</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="usd">{{ row.pagosTotalUSD | number:'1.2-2' }} USD</span>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="pagosTotalUSD">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Pagos USD </th>
-      <td mat-cell *matCellDef="let row"> {{ row.pagosTotalUSD | number:'1.2-2' }} </td>
-    </ng-container>
+      <ng-container matColumnDef="saldoUSD">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo USD</th>
+  <td mat-cell *matCellDef="let row">
+    <mat-chip class="chip-usd" selected>
+      {{ row.saldoUSD | number:'1.2-2' }} USD
+    </mat-chip>
+  </td>
+</ng-container>
 
-    <ng-container matColumnDef="saldoUSD">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo USD </th>
-      <td mat-cell *matCellDef="let row"> {{ row.saldoUSD | number:'1.2-2' }} </td>
-    </ng-container>
+      <!-- BOB -->
+      <ng-container matColumnDef="deudaTotalBOB">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Deuda BOB</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="bob">{{ row.deudaTotalBOB | number:'1.2-2' }} BOB</span>
+        </td>
+      </ng-container>
 
-    <!-- BOB -->
-    <ng-container matColumnDef="deudaTotalBOB">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Deuda BOB </th>
-      <td mat-cell *matCellDef="let row"> {{ row.deudaTotalBOB | number:'1.2-2' }} </td>
-    </ng-container>
+      <ng-container matColumnDef="pagosTotalBOB">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pagos BOB</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="bob">{{ row.pagosTotalBOB | number:'1.2-2' }} BOB</span>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="pagosTotalBOB">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Pagos BOB </th>
-      <td mat-cell *matCellDef="let row"> {{ row.pagosTotalBOB | number:'1.2-2' }} </td>
-    </ng-container>
+      <ng-container matColumnDef="saldoBOB">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo BOB</th>
+  <td mat-cell *matCellDef="let row">
+    <mat-chip class="chip-bob" selected>
+      {{ row.saldoBOB | number:'1.2-2' }} BOB
+    </mat-chip>
+  </td>
+</ng-container>
 
-    <ng-container matColumnDef="saldoBOB">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo BOB </th>
-      <td mat-cell *matCellDef="let row"> {{ row.saldoBOB | number:'1.2-2' }} </td>
-    </ng-container>
+      <!-- Filas -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsBalances"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsBalances;"></tr>
+    </table>
+  </div>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsBalances"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsBalances;"></tr>
-</table>
+  <!-- Paginador -->
+  <mat-paginator #paginatorBalances
+                 [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons>
+  </mat-paginator>
 
-<mat-paginator #paginatorBalances
-               [pageSizeOptions]="[5, 10, 20]" 
-               showFirstLastButtons>
-</mat-paginator>
+</mat-card>

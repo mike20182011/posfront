@@ -1,116 +1,161 @@
-<h2>Compras Abiertas</h2>
+<div class="header-compras-card">
+  <!-- Fila 1: Título + Botón -->
+  <div class="titulo-boton">
+    <h2>Compras Abiertas</h2>
+    <button mat-raised-button color="primary" (click)="abrirDialogNuevaCompra()">
+      <mat-icon>add</mat-icon>
+      Añadir nueva compra abierta
+    </button>
+  </div>
 
-<button mat-raised-button color="primary" (click)="abrirDialogNuevaCompra()">
-  <mat-icon>add</mat-icon> Añadir nueva compra abierta
-</button>
+  <!-- Fila 2: Filtros y búsqueda -->
+  <div class="filtros">
+    <mat-button-toggle-group [value]="monedaFiltro" (change)="seleccionarMoneda($event.value)">
+      <mat-button-toggle value="TODOS">Todos</mat-button-toggle>
+      <mat-button-toggle value="USD">USD</mat-button-toggle>
+      <mat-button-toggle value="BOB">BOB</mat-button-toggle>
+    </mat-button-toggle-group>
 
-<!-- 🔹 Controles de filtros -->
-<div class="filtros">
-  <mat-button-toggle-group [value]="monedaFiltro" (change)="seleccionarMoneda($event.value)">
-    <mat-button-toggle value="TODOS">Todos</mat-button-toggle>
-    <mat-button-toggle value="USD">USD</mat-button-toggle>
-    <mat-button-toggle value="BOB">BOB</mat-button-toggle>
-  </mat-button-toggle-group>
-
-  <mat-form-field>
-    <mat-label>Fecha inicio</mat-label>
-    <input matInput [matDatepicker]="pickerInicio" (dateChange)="seleccionarFechaInicio($event)">
-    <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
-    <mat-datepicker #pickerInicio></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Fecha fin</mat-label>
-    <input matInput [matDatepicker]="pickerFin" (dateChange)="seleccionarFechaFin($event)">
-    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
-    <mat-datepicker #pickerFin></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Buscar proveedor</mat-label>
-    <input matInput (input)="buscarProveedor($event)" placeholder="Proveedor...">
-  </mat-form-field>
-
-  <button mat-stroked-button color="warn" (click)="limpiarFiltros()">Limpiar filtros</button>
-
-  
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar proveedor</mat-label>
+      <input matInput (input)="buscarProveedor($event)" placeholder="Proveedor...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
 </div>
+
 
 <!-- 🔹 Lista de compras -->
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let compra of comprasFiltradas">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ compra.proveedor.nombre }} - {{ compra.fecha | date:'yyyy-MM-dd' }}
-      </mat-panel-title>
-      <mat-panel-description>
-        Moneda: <a href="" class="btnUSD">{{ compra.moneda }}</a> | Precio Inicial: {{ compra.precioInicial | currency:compra.moneda }}
-        
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+  <mat-expansion-panel *ngFor="let compra of comprasFiltradas" [ngClass]="compra.moneda === 'USD' ? 'usd' : 'bob'">
+   
+   <mat-expansion-panel-header class="compra-header">
+  <mat-panel-title>
+    <span class="proveedor">{{ compra.proveedor.nombre }}</span>
+    <span class="fecha-chip">{{ compra.fecha | date:'yyyy-MM-dd' }}</span>
+  </mat-panel-title>
 
-    <div class="detalle">
-        <button mat-stroked-button color="primary" (click)="abrirCierreParcial(compra)">
+  <mat-panel-description>
+    <span class="detalle">
+      <span class="label">Moneda:</span>
+      <span class="moneda-chip"
+            [ngClass]="{'usd': compra.moneda === 'USD', 'bob': compra.moneda === 'BOB'}">
+        {{ compra.moneda }}
+      </span>
+    </span>
+    <span class="detalle">
+      <span class="label">Precio Inicial:</span>
+      <strong>{{ compra.precioInicial | currency:compra.moneda }}</strong>
+    </span>
+  </mat-panel-description>
+</mat-expansion-panel-header>
+
+
+
+<div class="detalle">
+  <!-- Fila de botones centrados -->
+  <div class="acciones">
+    <button mat-stroked-button color="primary" (click)="abrirCierreParcial(compra)">
       Cierre Parcial
     </button>
     <button mat-stroked-button color="primary" (click)="abrirCierrePorBarra(compra)">
       Cierre Por Barra
     </button>
-      <p><strong>Usuario:</strong> {{ compra.usuario.nombre }}</p>
-      <p><strong>Onzas Totales:</strong> {{ compra.onzasTotales }}</p>
-      <p><strong>Monto Total:</strong> {{ compra.montoTotal | currency:compra.moneda }}</p>
-      <p *ngIf="compra.descuento"><strong>Descuento:</strong> {{ compra.descuento }}%</p>
-      <p *ngIf="compra.tipoCambio"><strong>Tipo Cambio:</strong> {{ compra.tipoCambio }}</p>
-    </div>
+  </div>
 
-    <h3>Barras</h3>
-<table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 full-width-table">
-  
+  <!-- Fila de información -->
+  <div class="info">
+    <p><strong>Onzas Totales:</strong> {{ compra.onzasTotales }}</p>
+
+    <p>
+      <strong>Monto Total:</strong>
+      <span 
+        class="moneda-simbolo"
+        [ngClass]="{'usd': compra.moneda === 'USD', 'bob': compra.moneda === 'BOB'}">
+        {{ compra.moneda === 'USD' ? '$' : 'Bs' }}
+      </span>
+      {{ compra.montoTotal | number:'1.2-2' }}
+    </p>
+
+    <!-- Mostrar descuento solo si moneda es USD -->
+    <p *ngIf="compra.moneda === 'USD' && compra.descuento">
+      <strong>Descuento:</strong> {{ compra.descuento }}%
+    </p>
+
+    <!-- Mostrar tipoCambio solo si moneda es BOB -->
+    <p *ngIf="compra.moneda === 'BOB' && compra.tipoCambio">
+      <strong>Tipo Cambio:</strong> {{ compra.tipoCambio }}
+    </p>
+  </div>
+</div>
+
+
+
+<h3>Barras</h3>
+
+<table mat-table [dataSource]="compra.barras" class="mat-elevation-z2 barras-table">
+
+  <!-- Peso -->
   <ng-container matColumnDef="pesoGr">
     <th mat-header-cell *matHeaderCellDef>Peso (gr)</th>
-    <td mat-cell *matCellDef="let barra">{{ barra.pesoGr }}</td>
+    <td mat-cell *matCellDef="let barra">{{ barra.pesoGr | number:'1.2-2' }}</td>
+    <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
   </ng-container>
 
+  <!-- Pureza -->
   <ng-container matColumnDef="pureza">
     <th mat-header-cell *matHeaderCellDef>Pureza</th>
-    <td mat-cell *matCellDef="let barra">{{ barra.pureza }}</td>
+    <td mat-cell *matCellDef="let barra">{{ barra.pureza }}%</td>
+    <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
+  <!-- Peso Fino -->
   <ng-container matColumnDef="pesoFino">
     <th mat-header-cell *matHeaderCellDef>Peso Fino</th>
-    <td mat-cell *matCellDef="let barra">{{ barra.pesoFino }}</td>
+    <td mat-cell *matCellDef="let barra">{{ barra.pesoFino | number:'1.2-2' }}</td>
+    <td mat-footer-cell *matFooterCellDef>
+      {{ getTotalPesoFino(compra) | number:'1.2-2' }}
+    </td>
   </ng-container>
 
+  <!-- Onzas -->
   <ng-container matColumnDef="onzas">
     <th mat-header-cell *matHeaderCellDef>Onzas</th>
-    <td mat-cell *matCellDef="let barra">{{ barra.onzas }}</td>
+    <td mat-cell *matCellDef="let barra">{{ barra.onzas | number:'1.2-2' }}</td>
+    <td mat-footer-cell *matFooterCellDef>
+      {{ getTotalOnzas(compra) | number:'1.2-2' }}
+    </td>
   </ng-container>
 
-  <!-- 🔹 Columna dinámica según moneda -->
-   <p><strong>Monto Total:</strong> 
-  @if (compra.moneda === 'USD') {
-    {{ compra.montoTotal | currency:'USD' }}
-  } @else {
-    {{ compra.montoBOB | currency:'BOB' }}
-  }
-</p>
-
+  <!-- Monto con Chips -->
   <ng-container matColumnDef="monto">
     <th mat-header-cell *matHeaderCellDef>
       {{ compra.moneda === 'USD' ? 'Monto USD' : 'Monto BOB' }}
     </th>
     <td mat-cell *matCellDef="let barra">
-      @if (compra.moneda === 'USD') {
-        {{ barra.montoUSD | currency:'USD' }}
-      } @else {
-        {{ barra.montoBOB | currency:'BOB' }}
-      }
+      <mat-chip [ngClass]="{'usd': compra.moneda==='USD','bob': compra.moneda==='BOB'}">
+        {{ (compra.moneda === 'USD' ? barra.montoUSD ?? 0 : barra.montoBOB ?? 0) 
+           | currency: compra.moneda==='USD' ? 'USD' : 'BOB' }}
+      </mat-chip>
+    </td>
+    <td mat-footer-cell *matFooterCellDef>
+      <mat-chip class="chip-total" [ngClass]="{'usd': compra.moneda==='USD','bob': compra.moneda==='BOB'}">
+        {{ getTotalMonto(compra) | currency: compra.moneda==='USD' ? 'USD' : 'BOB' }}
+      </mat-chip>
     </td>
   </ng-container>
 
+  <!-- Encabezados, filas y pie -->
   <tr mat-header-row *matHeaderRowDef="['pesoGr','pureza','pesoFino','onzas','monto']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','monto']" [ngClass]="{'cerrada': row.onzas === 0}"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['pesoGr','pureza','pesoFino','onzas','monto']" 
+      [ngClass]="{'cerrada': row.onzas === 0}" 
+      matTooltip="Onzas: {{row.onzas}}, Peso fino: {{row.pesoFino}}">
+  </tr>
+  <tr mat-footer-row *matFooterRowDef="['pesoGr','pureza','pesoFino','onzas','monto']"></tr>
+
 </table>
+
+
 
   </mat-expansion-panel>
 </mat-accordion>

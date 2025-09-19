@@ -26,13 +26,94 @@ form {
 }
 
 
+button.mat-raised-button {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+
+
+
+.proveedores-card {
+  padding: 1.2rem;
+  border-radius: 12px;
+  background-color: #f0f4f8; /* fondo suave */
+  margin-top: 1rem;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .search-field {
-  width: 300px;
+  flex: 1 1 250px;
+  min-width: 200px;
+}
+
+.tabla-container {
+  overflow-x: auto;
+}
+
+.full-width-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+
+.full-width-table th {
+  background-color: #1976d2; /* azul Material */
+  color: white;
+  font-weight: 600;
+}
+
+.full-width-table td,
+.full-width-table th {
+  text-align: center;
+  padding: 0.6rem;
+}
+.full-width-table tr:nth-child(even) {
+  background-color: #f5f5f5; /* filas alternadas */
+}
+
+
+.proveedor-icon {
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  color: #1976d2;
+}
+
+.usd {
+  color: green;
+  font-weight: 600;
+}
+
+.bob {
+  color: #d32f2f; /* rojo vivo */
+  font-weight: 600;
+}
+
+.saldo {
+  font-size: 1rem;
+}
+
+
+
+.chip-usd {
+  background-color: #e8f5e9;  /* verde claro */
+  color: #2e7d32;             /* verde fuerte */
+  font-weight: 600;
+}
+
+.chip-bob {
+  background-color: #ffebee;  /* rojo claro */
+  color: #c62828;             /* rojo vivo */
+  font-weight: 600;
 }

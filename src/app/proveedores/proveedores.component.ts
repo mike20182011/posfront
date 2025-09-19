@@ -11,6 +11,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddProveedorDialog } from './proveedor-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCard, MatCardActions } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+//import { MatChipListModule } from '@angular/material/chips';
+
+
 
 @Component({
   selector: 'app-proveedores',
@@ -25,7 +30,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     ReactiveFormsModule,
     MatFormFieldModule,  // ✅ Agregado
-  MatInputModule  
+  MatInputModule,MatCard, MatChipsModule  
   ],
   templateUrl: './proveedores.component.html',
 })

@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NuevaCompraAbiertaDialogComponent } from '../../compras-abiertas/nueva-compra-abierta-dialog/nueva-compra-abierta-dialog.component';
 import { CierreParcialDialogComponent } from './dialog-cierre-parcial/cierre-parcial-dialog.component';
 import { CierrePorBarraDialogComponent } from './dialog-cierre-por-barra/cierre-por-barra-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 interface Barra {
@@ -58,7 +59,8 @@ interface CompraAbierta {
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ],
   templateUrl: './compras-abiertas.component.html',
   styleUrls: ['./compras-abiertas.component.scss']
@@ -199,5 +201,21 @@ abrirCierrePorBarra(compra: any) {
 }
 
 
-  
+  getTotalPesoFino(compra: { barras: Barra[] }): number {
+  return compra.barras.reduce((sum: number, b: Barra) => sum + b.pesoFino, 0);
+}
+
+getTotalOnzas(compra: { barras: Barra[] }): number {
+  return compra.barras.reduce((sum: number, b: Barra) => sum + b.onzas, 0);
+}
+
+getTotalMonto(compra: { barras: Barra[], moneda: string }): number {
+  if (compra.moneda === 'USD') {
+    return compra.barras.reduce((sum: number, b: Barra) => sum + (b.montoUSD ?? 0), 0);
+  } else {
+    return compra.barras.reduce((sum: number, b: Barra) => sum + (b.montoBOB ?? 0), 0);
+  }
+}
+
+
 }

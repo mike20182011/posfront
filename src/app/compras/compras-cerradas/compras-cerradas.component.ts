@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NuevaCompraDialogComponent } from '../../compras-cerradas/nueva-compra-dialog/nueva-compra-dialog';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 
 interface Barra {
   pesoGr: number;
@@ -46,7 +47,7 @@ interface Compra {
   MatDatepickerModule,
   MatFormFieldModule,
   MatInputModule,
-  MatNativeDateModule,FormsModule],
+  MatNativeDateModule,FormsModule, MatCard, MatCardTitle, MatCardContent],
   templateUrl: './compras-cerradas.component.html',
   styleUrls: ['./compras-cerradas.component.scss']
 })

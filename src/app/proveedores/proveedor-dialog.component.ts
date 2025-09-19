@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ProveedoresService } from './proveedores.service';
+import { MatCard, MatCardActions } from '@angular/material/card';
 
 @Component({
   selector: 'app-add-proveedor-dialog',
@@ -16,7 +17,7 @@ import { ProveedoresService } from './proveedores.service';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
+    MatButtonModule,MatCard,MatCardActions
   ],
   template: `
     <h2 mat-dialog-title>Nuevo Proveedor</h2>
